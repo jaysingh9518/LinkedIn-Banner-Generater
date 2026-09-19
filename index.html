@@ -72,7 +72,6 @@
       display: block;
     }
 
-    /* Hide standard range thumb styling on browsers */
     input[type=range] {
       accent-color: #0298db;
     }
@@ -102,7 +101,6 @@
 
     <!-- Right Header Actions -->
     <div class="flex items-center gap-2.5">
-      <!-- Light / Dark Mode Toggle Button -->
       <button id="themeToggleBtn" type="button" aria-label="Toggle Theme" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5 text-xs font-medium">
         <span id="themeIconContainer">
           <svg id="sunIcon" class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -177,7 +175,7 @@
                 <!-- Top Brand: Logo & Company Name -->
                 <div class="flex items-center gap-4">
                   <div id="bannerLogoWrapper" class="h-12 max-w-[220px] flex items-center">
-                    <!-- Embedded Vector Logo: Visual Synergy -->
+                    <!-- Embedded Vector Logo -->
                     <div id="defaultLogoSvg" class="h-12 flex items-center">
                       <svg viewBox="0 0 280 70" class="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="5" y="27" width="130" height="15" rx="3" fill="var(--theme-cyan, #0298db)"/>
@@ -196,7 +194,7 @@
                   <span id="txtCompanyName" class="text-[19px] font-bold tracking-wide text-slate-700 font-display">Visual Synergy Pvt. Ltd</span>
                 </div>
 
-                <!-- Center Name, Title & Bio Statement (Unclamped for export parity) -->
+                <!-- Center Name, Title & Bio Statement -->
                 <div class="my-auto pt-1 flex flex-col justify-center">
                   <h2 id="txtName" class="text-[43px] font-black tracking-tight leading-none uppercase font-display" style="color: var(--theme-navy, #0b4084);">
                     JAY SINGH
@@ -204,32 +202,42 @@
                   <h3 id="txtTitle" class="text-[20px] font-extrabold tracking-widest text-slate-800 uppercase mt-1.5 font-display">
                     DIRECTOR
                   </h3>
-                  <!-- Fully unwrapped bio text element -->
+                  <!-- Unclamped bio text element -->
                   <div class="mt-2.5 max-w-[760px]">
                     <p id="txtBio" class="banner-bio-text text-[13.5px] text-slate-600 font-normal">Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.</p>
                   </div>
                 </div>
 
-                <!-- Bottom Contact Details -->
-                <div class="flex items-center gap-8 pt-1 text-slate-800">
+                <!-- Bottom Contact Details (Phone, Email, LinkedIn) -->
+                <div class="flex items-center gap-6 pt-1 text-slate-800 flex-wrap">
                   <!-- Phone Badge -->
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm transition-colors" style="background-color: var(--theme-navy, #0b4084);">
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full flex items-center justify-center text-white shadow-sm shrink-0 transition-colors" style="background-color: var(--theme-navy, #0b4084);">
+                      <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                       </svg>
                     </div>
-                    <span id="txtPhone" class="text-[15px] font-bold tracking-tight text-slate-900">+91 95 8795 0077</span>
+                    <span id="txtPhone" class="text-[14px] font-bold tracking-tight text-slate-900">+91 95 8795 0077</span>
+                  </div>
+
+                  <!-- Email Badge -->
+                  <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full flex items-center justify-center text-white shadow-sm shrink-0 transition-colors" style="background-color: var(--theme-navy, #0b4084);">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                      </svg>
+                    </div>
+                    <span id="txtEmail" class="text-[14px] font-bold tracking-tight text-slate-900">jay@visualsynergy.in</span>
                   </div>
 
                   <!-- LinkedIn URL Badge -->
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm transition-colors" style="background-color: var(--theme-navy, #0b4084);">
-                      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full flex items-center justify-center text-white shadow-sm shrink-0 transition-colors" style="background-color: var(--theme-navy, #0b4084);">
+                      <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.39 9.74V9.94H5.07v8.56h2.78z"/>
                       </svg>
                     </div>
-                    <span id="txtLinkedin" class="text-[15px] font-bold tracking-tight text-slate-900">www.linkedin.com/in/jaysingh9518/</span>
+                    <span id="txtLinkedin" class="text-[14px] font-bold tracking-tight text-slate-900">linkedin.com/in/jaysingh9518/</span>
                   </div>
                 </div>
 
@@ -343,14 +351,18 @@
             <p class="text-[11px] text-slate-400 mt-1">Export engine renders full text without truncation.</p>
           </div>
 
-          <div class="grid grid-cols-1 gap-4 pt-1">
+          <div class="grid grid-cols-1 gap-3.5 pt-1">
             <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Phone Contact</label>
               <input type="text" id="inPhone" value="+91 95 8795 0077" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-blue-500 transition">
             </div>
             <div>
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Email Address</label>
+              <input type="email" id="inEmail" value="jay@visualsynergy.in" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-blue-500 transition">
+            </div>
+            <div>
               <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">LinkedIn URL</label>
-              <input type="text" id="inLinkedin" value="www.linkedin.com/in/jaysingh9518/" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-blue-500 transition">
+              <input type="text" id="inLinkedin" value="linkedin.com/in/jaysingh9518/" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-blue-500 transition">
             </div>
           </div>
         </div>
@@ -494,7 +506,8 @@
       company: "Visual Synergy Pvt. Ltd",
       bio: "Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.",
       phone: "+91 95 8795 0077",
-      linkedin: "www.linkedin.com/in/jaysingh9518/",
+      email: "jay@visualsynergy.in",
+      linkedin: "linkedin.com/in/jaysingh9518/",
       avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
       avatarScale: 1.0,
       avatarX: 0,
@@ -524,6 +537,7 @@
     const txtBio = document.getElementById("txtBio");
     const bioCharCount = document.getElementById("bioCharCount");
     const txtPhone = document.getElementById("txtPhone");
+    const txtEmail = document.getElementById("txtEmail");
     const txtLinkedin = document.getElementById("txtLinkedin");
     const avatarImg = document.getElementById("avatarImg");
     const defaultLogoSvg = document.getElementById("defaultLogoSvg");
@@ -535,6 +549,7 @@
     const inCompany = document.getElementById("inCompany");
     const inBio = document.getElementById("inBio");
     const inPhone = document.getElementById("inPhone");
+    const inEmail = document.getElementById("inEmail");
     const inLinkedin = document.getElementById("inLinkedin");
 
     // Sliders
@@ -663,6 +678,11 @@
     inPhone.addEventListener("input", (e) => {
       state.phone = e.target.value;
       txtPhone.innerText = state.phone;
+    });
+
+    inEmail.addEventListener("input", (e) => {
+      state.email = e.target.value;
+      txtEmail.innerText = state.email;
     });
 
     inLinkedin.addEventListener("input", (e) => {
@@ -798,12 +818,11 @@
           const b = data[i + 2];
           const a = data[i + 3];
 
-          if (a < 120) continue; // Skip transparency
+          if (a < 120) continue;
 
           const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-          if (lum > 240 || lum < 15) continue; // Skip near white & pure black
+          if (lum > 240 || lum < 15) continue;
 
-          // Quantize to reduce noise
           const qr = Math.round(r / 24) * 24;
           const qg = Math.round(g / 24) * 24;
           const qb = Math.round(b / 24) * 24;
@@ -827,16 +846,11 @@
           });
         }
 
-        // Primary base from most prominent logo color
         const baseHex = sorted[0];
         const [h, s, l] = hexToHsl(baseHex);
 
-        // Derive high-contrast triad matching the banner's visual weight
-        // 1. Dark/Deep variant for the panel and title
         const primary = hslToHex(h, Math.max(s, 0.45), Math.min(l, 0.30));
-        // 2. Mid vibrant wave
         const secondary = hslToHex(h, Math.max(s, 0.60), 0.45);
-        // 3. Bright cyan / highlight wave
         const accent = sorted[1] ? sorted[1] : hslToHex((h + 0.05) % 1, Math.max(s, 0.75), 0.60);
 
         resolve({ primary, secondary, accent });
@@ -947,6 +961,8 @@
       updateBioDisplay(state.bio);
       inPhone.value = state.phone;
       txtPhone.innerText = state.phone;
+      inEmail.value = state.email;
+      txtEmail.innerText = state.email;
       inLinkedin.value = state.linkedin;
       txtLinkedin.innerText = state.linkedin;
       avatarImg.src = state.avatarUrl;
@@ -965,7 +981,7 @@
     });
 
     // ==========================================
-    // 1584 x 396 EXPORT WITH FULL BIO INTEGRITY
+    // 1584 x 396 EXPORT
     // ==========================================
     btnExport.addEventListener("click", async () => {
       const originalText = btnExport.innerHTML;
@@ -976,10 +992,8 @@
       `;
 
       try {
-        // Guarantee Google web fonts and layout metrics are fully resolved
         await document.fonts.ready;
 
-        // Clone the banner canvas to eliminate live responsive CSS scale
         const clone = bannerCanvas.cloneNode(true);
         clone.id = "bannerCanvasExportClone";
         clone.style.transform = "none";
@@ -990,12 +1004,10 @@
         clone.style.width = "1584px";
         clone.style.height = "396px";
 
-        // Preserve current CSS variables in the clone
         clone.style.setProperty("--theme-navy", state.navyColor);
         clone.style.setProperty("--theme-blue", state.blueColor);
         clone.style.setProperty("--theme-cyan", state.cyanColor);
 
-        // Ensure cloned bio paragraph preserves full wrapping without CSS height clipping
         const clonedBio = clone.querySelector("#txtBio");
         if (clonedBio) {
           clonedBio.style.whiteSpace = "pre-wrap";
@@ -1006,14 +1018,12 @@
         }
 
         document.body.appendChild(clone);
-
-        // Brief tick to ensure DOM paints cloned subtree
         await new Promise(r => setTimeout(r, 60));
 
         const canvas = await html2canvas(clone, {
           width: 1584,
           height: 396,
-          scale: 1, // Strict 1:1 pixel rendering
+          scale: 1,
           useCORS: true,
           allowTaint: true,
           backgroundColor: "#ffffff",
@@ -1022,14 +1032,13 @@
 
         document.body.removeChild(clone);
 
-        // Trigger file download
         const link = document.createElement("a");
         const cleanName = (state.name || "linkedin-banner").toLowerCase().replace(/[^a-z0-9]/g, "-");
         link.download = `${cleanName}-banner-1584x396.png`;
         link.href = canvas.toDataURL("image/png");
         link.click();
 
-        showToast("Export Ready", "High-res 1584x396 PNG with full Bio generated!");
+        showToast("Export Ready", "High-res 1584x396 PNG generated!");
       } catch (err) {
         console.error("Export error:", err);
         showToast("Export Notice", "Failed to render banner. Verify your image source permissions.");
