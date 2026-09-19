@@ -63,6 +63,15 @@
       aspect-ratio: 1584 / 396;
     }
 
+    /* Text formatting guarantees for export parity */
+    .banner-bio-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.42;
+      display: block;
+    }
+
     /* Hide standard range thumb styling on browsers */
     input[type=range] {
       accent-color: #0298db;
@@ -96,11 +105,9 @@
       <!-- Light / Dark Mode Toggle Button -->
       <button id="themeToggleBtn" type="button" aria-label="Toggle Theme" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5 text-xs font-medium">
         <span id="themeIconContainer">
-          <!-- Default Light Mode Icon (Sun) -->
           <svg id="sunIcon" class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
           </svg>
-          <!-- Moon Icon (Hidden by default) -->
           <svg id="moonIcon" class="w-4 h-4 text-sky-400 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
           </svg>
@@ -147,14 +154,14 @@
             <!-- THE NATIVE 1584 x 396 BANNER STAGE -->
             <div id="bannerCanvas" style="width: 1584px; height: 396px; position: absolute; top: 0; left: 0; transform-origin: 0 0;" class="bg-white text-slate-800 select-none overflow-hidden font-sans">
               
-              <!-- Abstract Left Wave Ribbons (Visual Synergy Theme) -->
+              <!-- Abstract Left Wave Ribbons -->
               <div class="absolute inset-y-0 left-0 w-[270px] pointer-events-none z-10 overflow-hidden">
                 <svg viewBox="0 0 270 396" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full preserve-3d">
-                  <!-- Deep Navy Wave -->
+                  <!-- Wave Layer 1 -->
                   <path d="M0,0 L70,0 C120,70 10,130 90,210 C150,270 50,330 110,396 L0,396 Z" fill="var(--theme-navy, #0b4084)"/>
-                  <!-- Royal Blue Accent Wave -->
+                  <!-- Wave Layer 2 -->
                   <path d="M0,0 L45,0 C95,65 10,125 75,200 C130,260 40,325 85,396 L0,396 Z" fill="var(--theme-blue, #0059b3)"/>
-                  <!-- Cyan Wave Ribbon -->
+                  <!-- Wave Layer 3 -->
                   <path d="M0,0 L20,0 C65,70 -5,120 50,200 C100,260 20,320 60,396 L0,396 Z" fill="var(--theme-cyan, #0298db)"/>
                   <!-- Flowing contour strokes -->
                   <path d="M100,0 C140,80 70,140 145,220 C200,280 120,340 160,396" stroke="var(--theme-cyan, #0298db)" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.95"/>
@@ -165,17 +172,16 @@
               </div>
 
               <!-- Main Banner Content Area -->
-              <div class="absolute left-[255px] right-[460px] top-0 bottom-0 px-8 py-7 flex flex-col justify-between z-20">
+              <div class="absolute left-[255px] right-[460px] top-0 bottom-0 px-8 py-6 flex flex-col justify-between z-20">
                 
                 <!-- Top Brand: Logo & Company Name -->
                 <div class="flex items-center gap-4">
-                  <div id="bannerLogoWrapper" class="h-12 max-w-[210px] flex items-center">
+                  <div id="bannerLogoWrapper" class="h-12 max-w-[220px] flex items-center">
                     <!-- Embedded Vector Logo: Visual Synergy -->
                     <div id="defaultLogoSvg" class="h-12 flex items-center">
                       <svg viewBox="0 0 280 70" class="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="5" y="27" width="130" height="15" rx="3" fill="var(--theme-cyan, #0298db)"/>
                         <text x="12" y="39" font-family="'Montserrat', sans-serif" font-weight="900" font-size="20" fill="#ffffff" letter-spacing="3">VISUAL</text>
-                        <!-- Arrowhead with equalizer sound bars -->
                         <path d="M140 10 L230 40 L140 70 Z" fill="none" stroke="var(--theme-blue, #0059b3)" stroke-width="8" stroke-linejoin="round"/>
                         <rect x="160" y="32" width="6" height="22" rx="2" fill="var(--theme-cyan, #0298db)"/>
                         <rect x="172" y="24" width="6" height="30" rx="2" fill="var(--theme-cyan, #0298db)"/>
@@ -190,45 +196,46 @@
                   <span id="txtCompanyName" class="text-[19px] font-bold tracking-wide text-slate-700 font-display">Visual Synergy Pvt. Ltd</span>
                 </div>
 
-                <!-- Center Name, Title & Bio Statement -->
-                <div class="my-auto pt-1">
-                  <h2 id="txtName" class="text-[44px] font-black tracking-tight leading-none text-brand-navy font-display uppercase" style="color: var(--theme-navy, #0b4084);">
+                <!-- Center Name, Title & Bio Statement (Unclamped for export parity) -->
+                <div class="my-auto pt-1 flex flex-col justify-center">
+                  <h2 id="txtName" class="text-[43px] font-black tracking-tight leading-none uppercase font-display" style="color: var(--theme-navy, #0b4084);">
                     JAY SINGH
                   </h2>
-                  <h3 id="txtTitle" class="text-[21px] font-extrabold tracking-widest text-slate-800 uppercase mt-1 font-display">
+                  <h3 id="txtTitle" class="text-[20px] font-extrabold tracking-widest text-slate-800 uppercase mt-1.5 font-display">
                     DIRECTOR
                   </h3>
-                  <p id="txtBio" class="text-[13.5px] leading-snug text-slate-600 max-w-[760px] line-clamp-3 mt-2 font-normal">
-                    Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.
-                  </p>
+                  <!-- Fully unwrapped bio text element -->
+                  <div class="mt-2.5 max-w-[760px]">
+                    <p id="txtBio" class="banner-bio-text text-[13.5px] text-slate-600 font-normal">Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.</p>
+                  </div>
                 </div>
 
                 <!-- Bottom Contact Details -->
                 <div class="flex items-center gap-8 pt-1 text-slate-800">
                   <!-- Phone Badge -->
                   <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm" style="background-color: var(--theme-navy, #0b4084);">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm transition-colors" style="background-color: var(--theme-navy, #0b4084);">
                       <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                       </svg>
                     </div>
-                    <span id="txtPhone" class="text-[15.5px] font-bold tracking-tight text-slate-900">+91 95 8795 0077</span>
+                    <span id="txtPhone" class="text-[15px] font-bold tracking-tight text-slate-900">+91 95 8795 0077</span>
                   </div>
 
                   <!-- LinkedIn URL Badge -->
                   <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm" style="background-color: var(--theme-navy, #0b4084);">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm transition-colors" style="background-color: var(--theme-navy, #0b4084);">
                       <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.39 9.74V9.94H5.07v8.56h2.78z"/>
                       </svg>
                     </div>
-                    <span id="txtLinkedin" class="text-[15.5px] font-bold tracking-tight text-slate-900">www.linkedin.com/in/jaysingh9518/</span>
+                    <span id="txtLinkedin" class="text-[15px] font-bold tracking-tight text-slate-900">www.linkedin.com/in/jaysingh9518/</span>
                   </div>
                 </div>
 
               </div>
 
-              <!-- Decorative Cyan Arrows (Left of Circle Photo) -->
+              <!-- Decorative Cyan Arrows -->
               <div class="absolute right-[430px] inset-y-0 flex flex-col justify-between py-6 items-center pointer-events-none z-20">
                 <div class="space-y-1 opacity-70">
                   <svg class="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="var(--theme-cyan, #0298db)" stroke-width="3" stroke-linecap="round"><polyline points="2 2 12 12 22 2"/></svg>
@@ -242,8 +249,7 @@
               </div>
 
               <!-- Right Navy Backdrop Panel -->
-              <div class="absolute right-0 top-0 bottom-0 w-[300px] z-10" style="background-color: var(--theme-navy, #0b4084);">
-                <!-- Wave accents on navy block -->
+              <div class="absolute right-0 top-0 bottom-0 w-[300px] z-10 transition-colors" style="background-color: var(--theme-navy, #0b4084);">
                 <div class="absolute right-6 top-7 opacity-75">
                   <svg class="w-16 h-8 text-white stroke-current" viewBox="0 0 80 30" fill="none" stroke-width="2.5">
                     <path d="M0,5 Q10,0 20,5 T40,5 T60,5 T80,5"/>
@@ -252,7 +258,6 @@
                   </svg>
                 </div>
 
-                <!-- Chevrons on right navy block -->
                 <div class="absolute right-8 bottom-8 flex flex-col gap-1.5 opacity-65">
                   <svg class="w-8 h-5 text-white stroke-current" viewBox="0 0 24 14" fill="none" stroke-width="3" stroke-linecap="round"><polyline points="2 12 12 2 22 12"/></svg>
                   <svg class="w-8 h-5 text-white stroke-current" viewBox="0 0 24 14" fill="none" stroke-width="3" stroke-linecap="round"><polyline points="2 12 12 2 22 12"/></svg>
@@ -263,11 +268,11 @@
               <!-- Circular Profile Frame Cutout -->
               <div class="absolute right-[145px] top-1/2 -translate-y-1/2 z-30">
                 <div class="w-[285px] h-[285px] rounded-full p-2.5 bg-white shadow-2xl flex items-center justify-center">
-                  <!-- Photo Container Viewport -->
                   <div class="w-full h-full rounded-full overflow-hidden relative bg-slate-100 flex items-center justify-center border-4 border-white">
                     <img id="avatarImg" 
                          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" 
                          alt="Profile Portrait" 
+                         crossorigin="anonymous"
                          class="absolute object-cover transition-transform duration-75 max-w-none"
                          style="width: 100%; height: 100%; transform: translate(0px, 0px) scale(1);"
                          onerror="this.src='https://placehold.co/400x400/0b4084/ffffff?text=Jay+Singh'">
@@ -279,19 +284,18 @@
           </div>
         </div>
 
-        <!-- Banner Info footer -->
         <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
-          <span>&bull; Scaled dynamically to fit your screen</span>
-          <span>&bull; Renders at native 1584 &times; 396 px upon PNG export</span>
+          <span>&bull; Real-time responsive preview</span>
+          <span>&bull; Exports exact 1584 &times; 396 px master resolution</span>
         </div>
       </div>
 
-      <!-- LinkedIn Safe-Zone Placement Note -->
+      <!-- Safe Zone Guideline -->
       <div class="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-xs text-slate-600 dark:text-slate-400 flex items-start gap-3 shadow-sm">
         <svg class="w-5 h-5 text-blue-600 dark:text-cyan-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
         <div>
           <strong class="text-slate-900 dark:text-slate-200">Safe-Zone Guaranteed:</strong>
-          LinkedIn overlaps your personal profile circular avatar on the lower-left on desktop browsers. This template arranges your name, designation, contact info, and corporate visuals strictly in the center and right to ensure zero overlapping.
+          LinkedIn overlaps your round avatar in the bottom-left corner on desktop web. Content has been locked to the center and right to preserve complete readability.
         </div>
       </div>
     </div>
@@ -322,17 +326,21 @@
         <div id="tab-profile" class="tab-content space-y-4">
           <div>
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Full Name</label>
-            <input type="text" id="inName" value="JAY SINGH" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 dark:focus:border-cyan-500 focus:ring-1 focus:ring-blue-500 transition">
+            <input type="text" id="inName" value="JAY SINGH" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 transition">
           </div>
 
           <div>
             <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Professional Designation / Title</label>
-            <input type="text" id="inTitle" value="DIRECTOR" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 dark:focus:border-cyan-500 focus:ring-1 focus:ring-blue-500 transition">
+            <input type="text" id="inTitle" value="DIRECTOR" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 transition">
           </div>
 
           <div>
-            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Bio / Summary Description</label>
-            <textarea id="inBio" rows="3" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white text-xs leading-relaxed focus:outline-none focus:border-blue-500 dark:focus:border-cyan-500 focus:ring-1 focus:ring-blue-500 transition resize-none">Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.</textarea>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Bio / Summary Description</label>
+              <span id="bioCharCount" class="text-[11px] text-slate-400">178 chars</span>
+            </div>
+            <textarea id="inBio" rows="3" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white text-xs leading-relaxed focus:outline-none focus:border-blue-500 transition resize-none">Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.</textarea>
+            <p class="text-[11px] text-slate-400 mt-1">Export engine renders full text without truncation.</p>
           </div>
 
           <div class="grid grid-cols-1 gap-4 pt-1">
@@ -406,39 +414,45 @@
             <div class="grid grid-cols-2 gap-2 mb-2">
               <button type="button" id="btnUseVisualSynergyLogo" class="py-2 px-3 text-xs font-medium rounded-lg bg-blue-50 dark:bg-blue-600/30 text-blue-700 dark:text-cyan-300 border border-blue-200 dark:border-cyan-500/40">Visual Synergy</button>
               <label class="cursor-pointer py-2 px-3 text-xs font-medium rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-center border border-slate-300 dark:border-slate-700 flex items-center justify-center shadow-sm">
-                Custom File
+                Upload Custom Logo
                 <input type="file" id="uploadLogo" accept="image/*" class="hidden">
               </label>
             </div>
-            <p class="text-[11px] text-slate-500">Visual Synergy vector logo is active by default.</p>
+            <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+              <span>Automatic Palette Extraction</span>
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 font-medium">Auto-Theme Active</span>
+            </div>
           </div>
         </div>
 
         <!-- TAB 4: Theme Palette -->
         <div id="tab-theme" class="tab-content hidden space-y-4">
-          <p class="text-xs text-slate-500 dark:text-slate-400">Customize the vector accent colors inside the banner graphic:</p>
+          <div class="flex items-center justify-between">
+            <p class="text-xs text-slate-500 dark:text-slate-400">Vector colors dynamically synced:</p>
+            <button type="button" id="btnReExtractColors" class="hidden text-xs text-blue-600 dark:text-cyan-400 font-semibold hover:underline">Re-extract from Logo</button>
+          </div>
           
           <div class="grid grid-cols-1 gap-3">
             <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
               <div>
-                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Primary Navy Color</span>
-                <span class="text-[11px] text-slate-500">Right panel & name text</span>
+                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Primary Color</span>
+                <span class="text-[11px] text-slate-500">Backdrop, header text, contact icons</span>
               </div>
               <input type="color" id="colNavy" value="#0b4084" class="w-9 h-9 rounded-lg border-0 bg-transparent cursor-pointer">
             </div>
 
             <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
               <div>
-                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Accent Blue</span>
-                <span class="text-[11px] text-slate-500">Secondary waves & logo</span>
+                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Secondary Accent</span>
+                <span class="text-[11px] text-slate-500">Middle ribbon waves & accents</span>
               </div>
               <input type="color" id="colBlue" value="#0059b3" class="w-9 h-9 rounded-lg border-0 bg-transparent cursor-pointer">
             </div>
 
             <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
               <div>
-                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Cyan Highlight</span>
-                <span class="text-[11px] text-slate-500">Ribbons & arrows</span>
+                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Highlight Accent</span>
+                <span class="text-[11px] text-slate-500">Ribbon outlines & decorative arrows</span>
               </div>
               <input type="color" id="colCyan" value="#0298db" class="w-9 h-9 rounded-lg border-0 bg-transparent cursor-pointer">
             </div>
@@ -446,7 +460,7 @@
 
           <div class="pt-2">
             <button type="button" id="btnResetColors" class="w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition border border-slate-200 dark:border-slate-700">
-              Restore Visual Synergy Blues
+              Restore Default Visual Synergy Palette
             </button>
           </div>
         </div>
@@ -473,7 +487,7 @@
   </div>
 
   <script>
-    // State representation
+    // Global State
     const defaultState = {
       name: "JAY SINGH",
       title: "DIRECTOR",
@@ -493,7 +507,7 @@
 
     let state = { ...defaultState };
 
-    // DOM References
+    // DOM Elements
     const htmlElement = document.documentElement;
     const themeToggleBtn = document.getElementById("themeToggleBtn");
     const sunIcon = document.getElementById("sunIcon");
@@ -503,18 +517,19 @@
     const bannerCanvas = document.getElementById("bannerCanvas");
     const wrapper = document.querySelector(".banner-ratio-wrapper");
 
-    // Live display elements
+    // Live Display Elements
     const txtName = document.getElementById("txtName");
     const txtTitle = document.getElementById("txtTitle");
     const txtCompany = document.getElementById("txtCompanyName");
     const txtBio = document.getElementById("txtBio");
+    const bioCharCount = document.getElementById("bioCharCount");
     const txtPhone = document.getElementById("txtPhone");
     const txtLinkedin = document.getElementById("txtLinkedin");
     const avatarImg = document.getElementById("avatarImg");
     const defaultLogoSvg = document.getElementById("defaultLogoSvg");
     const customLogoImg = document.getElementById("customLogoImg");
 
-    // Form inputs
+    // Inputs
     const inName = document.getElementById("inName");
     const inTitle = document.getElementById("inTitle");
     const inCompany = document.getElementById("inCompany");
@@ -534,6 +549,7 @@
     const colNavy = document.getElementById("colNavy");
     const colBlue = document.getElementById("colBlue");
     const colCyan = document.getElementById("colCyan");
+    const btnReExtractColors = document.getElementById("btnReExtractColors");
 
     // Buttons
     const btnExport = document.getElementById("btnExport");
@@ -546,10 +562,9 @@
     const btnResetColors = document.getElementById("btnResetColors");
 
     // ==========================================
-    // LIGHT / DARK MODE CONTROLLER (LIGHT DEFAULT)
+    // LIGHT / DARK MODE CONTROLLER
     // ==========================================
     function initTheme() {
-      // Default strictly to 'light' unless user previously chose 'dark'
       const savedTheme = localStorage.getItem("theme") || "light";
       applyTheme(savedTheme);
     }
@@ -577,7 +592,7 @@
     });
 
     // ==========================================
-    // RESPONSIVE STAGE SCALING (1584 x 396 FIT)
+    // RESPONSIVE RATIO SCALING
     // ==========================================
     function fitBanner() {
       if (!wrapper || !bannerCanvas) return;
@@ -589,7 +604,6 @@
 
     window.addEventListener("resize", fitBanner);
 
-    // Toast helper
     function showToast(title, msg) {
       const toast = document.getElementById("toast");
       document.getElementById("toastTitle").innerText = title;
@@ -597,7 +611,7 @@
       toast.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
       setTimeout(() => {
         toast.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
-      }, 3200);
+      }, 3400);
     }
 
     // ==========================================
@@ -612,16 +626,14 @@
         btn.classList.add("bg-blue-600", "text-white", "shadow-sm");
         btn.classList.remove("text-slate-600", "dark:text-slate-400");
 
-        document.querySelectorAll(".tab-content").forEach(content => {
-          content.classList.add("hidden");
-        });
+        document.querySelectorAll(".tab-content").forEach(content => content.classList.add("hidden"));
         const target = document.getElementById(btn.dataset.tab);
         if (target) target.classList.remove("hidden");
       });
     });
 
     // ==========================================
-    // LIVE INPUT LISTENERS
+    // LIVE INPUT LISTENERS & BIO WRAPPER
     // ==========================================
     inName.addEventListener("input", (e) => {
       state.name = e.target.value || "JAY SINGH";
@@ -638,9 +650,14 @@
       txtCompany.innerText = state.company;
     });
 
+    function updateBioDisplay(text) {
+      state.bio = text;
+      txtBio.innerText = text;
+      bioCharCount.innerText = `${text.length} chars`;
+    }
+
     inBio.addEventListener("input", (e) => {
-      state.bio = e.target.value;
-      txtBio.innerText = state.bio;
+      updateBioDisplay(e.target.value);
     });
 
     inPhone.addEventListener("input", (e) => {
@@ -654,7 +671,7 @@
     });
 
     // ==========================================
-    // AVATAR CONTROLS (SCALE, PAN X/Y)
+    // AVATAR CONTROLS (SCALE & PAN)
     // ==========================================
     function updatePhotoTransform() {
       avatarImg.style.transform = `translate(${state.avatarX}px, ${state.avatarY}px) scale(${state.avatarScale})`;
@@ -709,6 +726,143 @@
     });
 
     // ==========================================
+    // AUTOMATIC LOGO THEME MAKER ENGINE
+    // ==========================================
+    function rgbToHex(r, g, b) {
+      return "#" + [r, g, b].map(x => {
+        const hex = Math.max(0, Math.min(255, Math.round(x))).toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      }).join("");
+    }
+
+    function hexToHsl(hex) {
+      let r = parseInt(hex.slice(1, 3), 16) / 255;
+      let g = parseInt(hex.slice(3, 5), 16) / 255;
+      let b = parseInt(hex.slice(5, 7), 16) / 255;
+
+      let max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return [h, s, l];
+    }
+
+    function hslToHex(h, s, l) {
+      let r, g, b;
+      if (s === 0) {
+        r = g = b = l;
+      } else {
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+      }
+      return rgbToHex(r * 255, g * 255, b * 255);
+    }
+
+    function extractColorsFromImage(imgElement) {
+      return new Promise((resolve) => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const size = 64;
+        canvas.width = size;
+        canvas.height = size;
+
+        ctx.drawImage(imgElement, 0, 0, size, size);
+        const data = ctx.getImageData(0, 0, size, size).data;
+        const buckets = {};
+
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const a = data[i + 3];
+
+          if (a < 120) continue; // Skip transparency
+
+          const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+          if (lum > 240 || lum < 15) continue; // Skip near white & pure black
+
+          // Quantize to reduce noise
+          const qr = Math.round(r / 24) * 24;
+          const qg = Math.round(g / 24) * 24;
+          const qb = Math.round(b / 24) * 24;
+          const key = `${qr},${qg},${qb}`;
+
+          buckets[key] = (buckets[key] || 0) + 1;
+        }
+
+        const sorted = Object.entries(buckets)
+          .sort((a, b) => b[1] - a[1])
+          .map(([rgbStr]) => {
+            const [r, g, b] = rgbStr.split(",").map(Number);
+            return rgbToHex(r, g, b);
+          });
+
+        if (sorted.length === 0) {
+          return resolve({
+            primary: defaultState.navyColor,
+            secondary: defaultState.blueColor,
+            accent: defaultState.cyanColor
+          });
+        }
+
+        // Primary base from most prominent logo color
+        const baseHex = sorted[0];
+        const [h, s, l] = hexToHsl(baseHex);
+
+        // Derive high-contrast triad matching the banner's visual weight
+        // 1. Dark/Deep variant for the panel and title
+        const primary = hslToHex(h, Math.max(s, 0.45), Math.min(l, 0.30));
+        // 2. Mid vibrant wave
+        const secondary = hslToHex(h, Math.max(s, 0.60), 0.45);
+        // 3. Bright cyan / highlight wave
+        const accent = sorted[1] ? sorted[1] : hslToHex((h + 0.05) % 1, Math.max(s, 0.75), 0.60);
+
+        resolve({ primary, secondary, accent });
+      });
+    }
+
+    async function applyLogoTheme(imgElement) {
+      try {
+        const { primary, secondary, accent } = await extractColorsFromImage(imgElement);
+        state.navyColor = primary;
+        state.blueColor = secondary;
+        state.cyanColor = accent;
+
+        colNavy.value = primary;
+        colBlue.value = secondary;
+        colCyan.value = accent;
+
+        applyColors();
+        btnReExtractColors.classList.remove("hidden");
+        showToast("Theme Generated", "Auto-extracted harmonious colors from your uploaded logo.");
+      } catch (err) {
+        console.warn("Logo theme extraction skipped:", err);
+      }
+    }
+
+    // ==========================================
     // LOGO HANDLERS
     // ==========================================
     uploadLogo.addEventListener("change", (e) => {
@@ -720,9 +874,18 @@
           customLogoImg.classList.remove("hidden");
           defaultLogoSvg.classList.add("hidden");
           state.customLogoUrl = event.target.result;
-          showToast("Logo Uploaded", "Custom brand logo applied.");
+
+          customLogoImg.onload = () => {
+            applyLogoTheme(customLogoImg);
+          };
         };
         reader.readAsDataURL(file);
+      }
+    });
+
+    btnReExtractColors.addEventListener("click", () => {
+      if (customLogoImg && !customLogoImg.classList.contains("hidden")) {
+        applyLogoTheme(customLogoImg);
       }
     });
 
@@ -730,6 +893,7 @@
       customLogoImg.classList.add("hidden");
       defaultLogoSvg.classList.remove("hidden");
       state.customLogoUrl = null;
+      btnReExtractColors.classList.add("hidden");
       showToast("Logo Reset", "Visual Synergy corporate logo restored.");
     });
 
@@ -780,7 +944,7 @@
       inCompany.value = state.company;
       txtCompany.innerText = state.company;
       inBio.value = state.bio;
-      txtBio.innerText = state.bio;
+      updateBioDisplay(state.bio);
       inPhone.value = state.phone;
       txtPhone.innerText = state.phone;
       inLinkedin.value = state.linkedin;
@@ -788,6 +952,7 @@
       avatarImg.src = state.avatarUrl;
       customLogoImg.classList.add("hidden");
       defaultLogoSvg.classList.remove("hidden");
+      btnReExtractColors.classList.add("hidden");
       rngScale.value = 1.0;
       rngPosX.value = 0;
       rngPosY.value = 0;
@@ -800,7 +965,7 @@
     });
 
     // ==========================================
-    // HIGH-RESOLUTION 1584 x 396 PNG EXPORT
+    // 1584 x 396 EXPORT WITH FULL BIO INTEGRITY
     // ==========================================
     btnExport.addEventListener("click", async () => {
       const originalText = btnExport.innerHTML;
@@ -811,19 +976,44 @@
       `;
 
       try {
-        // Clone canvas and place off-screen at exact native 1584x396 dimensions
+        // Guarantee Google web fonts and layout metrics are fully resolved
+        await document.fonts.ready;
+
+        // Clone the banner canvas to eliminate live responsive CSS scale
         const clone = bannerCanvas.cloneNode(true);
+        clone.id = "bannerCanvasExportClone";
         clone.style.transform = "none";
         clone.style.position = "fixed";
-        clone.style.top = "-9999px";
+        clone.style.top = "0";
         clone.style.left = "-9999px";
         clone.style.zIndex = "99999";
+        clone.style.width = "1584px";
+        clone.style.height = "396px";
+
+        // Preserve current CSS variables in the clone
+        clone.style.setProperty("--theme-navy", state.navyColor);
+        clone.style.setProperty("--theme-blue", state.blueColor);
+        clone.style.setProperty("--theme-cyan", state.cyanColor);
+
+        // Ensure cloned bio paragraph preserves full wrapping without CSS height clipping
+        const clonedBio = clone.querySelector("#txtBio");
+        if (clonedBio) {
+          clonedBio.style.whiteSpace = "pre-wrap";
+          clonedBio.style.wordBreak = "break-word";
+          clonedBio.style.overflow = "visible";
+          clonedBio.style.maxHeight = "none";
+          clonedBio.innerText = state.bio;
+        }
+
         document.body.appendChild(clone);
+
+        // Brief tick to ensure DOM paints cloned subtree
+        await new Promise(r => setTimeout(r, 60));
 
         const canvas = await html2canvas(clone, {
           width: 1584,
           height: 396,
-          scale: 1, // Exact pixel mapping
+          scale: 1, // Strict 1:1 pixel rendering
           useCORS: true,
           allowTaint: true,
           backgroundColor: "#ffffff",
@@ -832,17 +1022,17 @@
 
         document.body.removeChild(clone);
 
-        // Trigger direct download
+        // Trigger file download
         const link = document.createElement("a");
-        const cleanName = (state.name || "linkedin-banner").toLowerCase().replace(/\s+/g, "-");
-        link.download = `${cleanName}-linkedin-banner.png`;
+        const cleanName = (state.name || "linkedin-banner").toLowerCase().replace(/[^a-z0-9]/g, "-");
+        link.download = `${cleanName}-banner-1584x396.png`;
         link.href = canvas.toDataURL("image/png");
         link.click();
 
-        showToast("Download Started", "1584x396 PNG has been exported successfully!");
+        showToast("Export Ready", "High-res 1584x396 PNG with full Bio generated!");
       } catch (err) {
         console.error("Export error:", err);
-        showToast("Export Notice", "Failed to render banner. Please verify image permissions.");
+        showToast("Export Notice", "Failed to render banner. Verify your image source permissions.");
       } finally {
         btnExport.disabled = false;
         btnExport.innerHTML = originalText;
@@ -854,6 +1044,7 @@
       initTheme();
       applyColors();
       fitBanner();
+      updateBioDisplay(state.bio);
     };
   </script>
 </body>
