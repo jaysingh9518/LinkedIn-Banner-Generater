@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Banner Generator - Visual Synergy Studio</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2canvas for 1584x396 pixel-perfect export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Montserrat"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              navy: '#0b4084',
+              blue: '#0059b3',
+              cyan: '#0298db',
+              dark: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .light ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .light ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+
+    /* Strict 1584 x 396 ratio wrapper */
+    .banner-ratio-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1584 / 396;
+    }
+
+    /* Hide standard range thumb styling on browsers */
+    input[type=range] {
+      accent-color: #0298db;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200 selection:bg-cyan-500 selection:text-white">
+
+  <header class="border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur sticky top-0 z-40 px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+    <div class="flex items-center gap-3">
+      <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-700 via-sky-500 to-cyan-400 p-0.5 shadow-md shadow-sky-500/20">
+        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] flex items-center justify-center">
+          <svg class="w-5 h-5 text-blue-600 dark:text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/>
+            <path d="M7 7h.01"/>
+            <path d="m21 15-5-5L5 21"/>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+          LinkedIn Banner Studio
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-50 dark:bg-cyan-500/10 text-blue-600 dark:text-cyan-400 border border-blue-200 dark:border-cyan-500/30">1584 &times; 396 px</span>
+        </h1>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Visual Synergy Design Suite &bull; Profile Branding</p>
+      </div>
+    </div>
+
+    <!-- Right Header Actions -->
+    <div class="flex items-center gap-2.5">
+      <!-- Light / Dark Mode Toggle Button -->
+      <button id="themeToggleBtn" type="button" aria-label="Toggle Theme" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5 text-xs font-medium">
+        <span id="themeIconContainer">
+          <!-- Default Light Mode Icon (Sun) -->
+          <svg id="sunIcon" class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+          <!-- Moon Icon (Hidden by default) -->
+          <svg id="moonIcon" class="w-4 h-4 text-sky-400 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </span>
+        <span id="themeLabel" class="hidden sm:inline">Light Mode</span>
+      </button>
+
+      <button id="btnReset" type="button" class="px-3.5 py-2 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5 active:scale-95">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset Defaults
+      </button>
+
+      <button id="btnExport" type="button" class="px-4 sm:px-5 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 hover:from-blue-600 hover:to-cyan-400 text-white shadow-md shadow-sky-600/25 transition flex items-center gap-2 active:scale-95">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Export PNG</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
+
+    <!-- Center Stage: Live Scaled Viewport -->
+    <div class="flex-1 flex flex-col gap-4 order-2 lg:order-1">
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 shadow-md dark:shadow-xl flex flex-col transition-colors">
+        
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Live 1584 &times; 396 Canvas</span>
+          </div>
+          <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+            <span class="hidden sm:inline">LinkedIn Ratio:</span>
+            <span class="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded font-mono text-blue-600 dark:text-cyan-400 font-semibold">4 : 1</span>
+          </div>
+        </div>
+
+        <!-- Banner Container with strict aspect ratio -->
+        <div class="w-full flex justify-center items-center overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-950 p-2 sm:p-4 border border-slate-200 dark:border-slate-800/80 shadow-inner">
+          <div class="w-full max-w-full banner-ratio-wrapper shadow-2xl rounded-lg overflow-hidden border border-slate-300 dark:border-slate-700/60 bg-white">
+            
+            <!-- THE NATIVE 1584 x 396 BANNER STAGE -->
+            <div id="bannerCanvas" style="width: 1584px; height: 396px; position: absolute; top: 0; left: 0; transform-origin: 0 0;" class="bg-white text-slate-800 select-none overflow-hidden font-sans">
+              
+              <!-- Abstract Left Wave Ribbons (Visual Synergy Theme) -->
+              <div class="absolute inset-y-0 left-0 w-[270px] pointer-events-none z-10 overflow-hidden">
+                <svg viewBox="0 0 270 396" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full preserve-3d">
+                  <!-- Deep Navy Wave -->
+                  <path d="M0,0 L70,0 C120,70 10,130 90,210 C150,270 50,330 110,396 L0,396 Z" fill="var(--theme-navy, #0b4084)"/>
+                  <!-- Royal Blue Accent Wave -->
+                  <path d="M0,0 L45,0 C95,65 10,125 75,200 C130,260 40,325 85,396 L0,396 Z" fill="var(--theme-blue, #0059b3)"/>
+                  <!-- Cyan Wave Ribbon -->
+                  <path d="M0,0 L20,0 C65,70 -5,120 50,200 C100,260 20,320 60,396 L0,396 Z" fill="var(--theme-cyan, #0298db)"/>
+                  <!-- Flowing contour strokes -->
+                  <path d="M100,0 C140,80 70,140 145,220 C200,280 120,340 160,396" stroke="var(--theme-cyan, #0298db)" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.95"/>
+                  <path d="M140,0 C180,75 120,130 180,210 C230,270 160,330 195,396" stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.95"/>
+                  <path d="M180,0 C215,70 165,125 215,205 C255,265 200,325 230,396" stroke="var(--theme-blue, #0059b3)" stroke-width="14" stroke-linecap="round" fill="none"/>
+                  <path d="M220,0 C250,60 205,115 250,195 C285,255 235,315 260,396" stroke="var(--theme-cyan, #0298db)" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.85"/>
+                </svg>
+              </div>
+
+              <!-- Main Banner Content Area -->
+              <div class="absolute left-[255px] right-[460px] top-0 bottom-0 px-8 py-7 flex flex-col justify-between z-20">
+                
+                <!-- Top Brand: Logo & Company Name -->
+                <div class="flex items-center gap-4">
+                  <div id="bannerLogoWrapper" class="h-12 max-w-[210px] flex items-center">
+                    <!-- Embedded Vector Logo: Visual Synergy -->
+                    <div id="defaultLogoSvg" class="h-12 flex items-center">
+                      <svg viewBox="0 0 280 70" class="h-full w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="5" y="27" width="130" height="15" rx="3" fill="var(--theme-cyan, #0298db)"/>
+                        <text x="12" y="39" font-family="'Montserrat', sans-serif" font-weight="900" font-size="20" fill="#ffffff" letter-spacing="3">VISUAL</text>
+                        <!-- Arrowhead with equalizer sound bars -->
+                        <path d="M140 10 L230 40 L140 70 Z" fill="none" stroke="var(--theme-blue, #0059b3)" stroke-width="8" stroke-linejoin="round"/>
+                        <rect x="160" y="32" width="6" height="22" rx="2" fill="var(--theme-cyan, #0298db)"/>
+                        <rect x="172" y="24" width="6" height="30" rx="2" fill="var(--theme-cyan, #0298db)"/>
+                        <rect x="184" y="28" width="6" height="26" rx="2" fill="var(--theme-blue, #0059b3)"/>
+                        <rect x="196" y="36" width="6" height="18" rx="2" fill="var(--theme-blue, #0059b3)"/>
+                        <text x="5" y="65" font-family="'Montserrat', sans-serif" font-weight="900" font-size="26" fill="var(--theme-blue, #0059b3)" letter-spacing="2">SYNERGY</text>
+                      </svg>
+                    </div>
+                    <img id="customLogoImg" src="" alt="Custom Logo" class="hidden h-12 w-auto object-contain max-w-[220px]">
+                  </div>
+                  <div class="h-7 w-[2px] bg-slate-300 rounded-full"></div>
+                  <span id="txtCompanyName" class="text-[19px] font-bold tracking-wide text-slate-700 font-display">Visual Synergy Pvt. Ltd</span>
+                </div>
+
+                <!-- Center Name, Title & Bio Statement -->
+                <div class="my-auto pt-1">
+                  <h2 id="txtName" class="text-[44px] font-black tracking-tight leading-none text-brand-navy font-display uppercase" style="color: var(--theme-navy, #0b4084);">
+                    JAY SINGH
+                  </h2>
+                  <h3 id="txtTitle" class="text-[21px] font-extrabold tracking-widest text-slate-800 uppercase mt-1 font-display">
+                    DIRECTOR
+                  </h3>
+                  <p id="txtBio" class="text-[13.5px] leading-snug text-slate-600 max-w-[760px] line-clamp-3 mt-2 font-normal">
+                    Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.
+                  </p>
+                </div>
+
+                <!-- Bottom Contact Details -->
+                <div class="flex items-center gap-8 pt-1 text-slate-800">
+                  <!-- Phone Badge -->
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm" style="background-color: var(--theme-navy, #0b4084);">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                      </svg>
+                    </div>
+                    <span id="txtPhone" class="text-[15.5px] font-bold tracking-tight text-slate-900">+91 95 8795 0077</span>
+                  </div>
+
+                  <!-- LinkedIn URL Badge -->
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-sm" style="background-color: var(--theme-navy, #0b4084);">
+                      <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.39 9.74V9.94H5.07v8.56h2.78z"/>
+                      </svg>
+                    </div>
+                    <span id="txtLinkedin" class="text-[15.5px] font-bold tracking-tight text-slate-900">www.linkedin.com/in/jaysingh9518/</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Decorative Cyan Arrows (Left of Circle Photo) -->
+              <div class="absolute right-[430px] inset-y-0 flex flex-col justify-between py-6 items-center pointer-events-none z-20">
+                <div class="space-y-1 opacity-70">
+                  <svg class="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="var(--theme-cyan, #0298db)" stroke-width="3" stroke-linecap="round"><polyline points="2 2 12 12 22 2"/></svg>
+                  <svg class="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="var(--theme-cyan, #0298db)" stroke-width="3" stroke-linecap="round"><polyline points="2 2 12 12 22 2"/></svg>
+                  <svg class="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="var(--theme-cyan, #0298db)" stroke-width="3" stroke-linecap="round"><polyline points="2 2 12 12 22 2"/></svg>
+                </div>
+                <div class="space-y-1 opacity-70">
+                  <svg class="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="var(--theme-cyan, #0298db)" stroke-width="3" stroke-linecap="round"><polyline points="2 12 12 2 22 12"/></svg>
+                  <svg class="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="var(--theme-cyan, #0298db)" stroke-width="3" stroke-linecap="round"><polyline points="2 12 12 2 22 12"/></svg>
+                </div>
+              </div>
+
+              <!-- Right Navy Backdrop Panel -->
+              <div class="absolute right-0 top-0 bottom-0 w-[300px] z-10" style="background-color: var(--theme-navy, #0b4084);">
+                <!-- Wave accents on navy block -->
+                <div class="absolute right-6 top-7 opacity-75">
+                  <svg class="w-16 h-8 text-white stroke-current" viewBox="0 0 80 30" fill="none" stroke-width="2.5">
+                    <path d="M0,5 Q10,0 20,5 T40,5 T60,5 T80,5"/>
+                    <path d="M0,15 Q10,10 20,15 T40,15 T60,15 T80,15"/>
+                    <path d="M0,25 Q10,20 20,25 T40,25 T60,25 T80,25"/>
+                  </svg>
+                </div>
+
+                <!-- Chevrons on right navy block -->
+                <div class="absolute right-8 bottom-8 flex flex-col gap-1.5 opacity-65">
+                  <svg class="w-8 h-5 text-white stroke-current" viewBox="0 0 24 14" fill="none" stroke-width="3" stroke-linecap="round"><polyline points="2 12 12 2 22 12"/></svg>
+                  <svg class="w-8 h-5 text-white stroke-current" viewBox="0 0 24 14" fill="none" stroke-width="3" stroke-linecap="round"><polyline points="2 12 12 2 22 12"/></svg>
+                  <svg class="w-8 h-5 text-white stroke-current" viewBox="0 0 24 14" fill="none" stroke-width="3" stroke-linecap="round"><polyline points="2 12 12 2 22 12"/></svg>
+                </div>
+              </div>
+
+              <!-- Circular Profile Frame Cutout -->
+              <div class="absolute right-[145px] top-1/2 -translate-y-1/2 z-30">
+                <div class="w-[285px] h-[285px] rounded-full p-2.5 bg-white shadow-2xl flex items-center justify-center">
+                  <!-- Photo Container Viewport -->
+                  <div class="w-full h-full rounded-full overflow-hidden relative bg-slate-100 flex items-center justify-center border-4 border-white">
+                    <img id="avatarImg" 
+                         src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" 
+                         alt="Profile Portrait" 
+                         class="absolute object-cover transition-transform duration-75 max-w-none"
+                         style="width: 100%; height: 100%; transform: translate(0px, 0px) scale(1);"
+                         onerror="this.src='https://placehold.co/400x400/0b4084/ffffff?text=Jay+Singh'">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner Info footer -->
+        <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span>&bull; Scaled dynamically to fit your screen</span>
+          <span>&bull; Renders at native 1584 &times; 396 px upon PNG export</span>
+        </div>
+      </div>
+
+      <!-- LinkedIn Safe-Zone Placement Note -->
+      <div class="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-xs text-slate-600 dark:text-slate-400 flex items-start gap-3 shadow-sm">
+        <svg class="w-5 h-5 text-blue-600 dark:text-cyan-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div>
+          <strong class="text-slate-900 dark:text-slate-200">Safe-Zone Guaranteed:</strong>
+          LinkedIn overlaps your personal profile circular avatar on the lower-left on desktop browsers. This template arranges your name, designation, contact info, and corporate visuals strictly in the center and right to ensure zero overlapping.
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Studio Controls Panel -->
+    <div class="w-full lg:w-[440px] shrink-0 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-md dark:shadow-xl flex flex-col order-1 lg:order-2 transition-colors">
+      
+      <!-- Panel Header & Navigation Tabs -->
+      <div class="p-4 border-b border-slate-200 dark:border-slate-800">
+        <h3 class="text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider mb-3 flex items-center justify-between">
+          <span>Customization Studio</span>
+          <span class="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium px-2 py-0.5 rounded">Real-Time Sync</span>
+        </h3>
+
+        <!-- Tab Buttons -->
+        <div class="grid grid-cols-4 gap-1 p-1 bg-slate-100 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold">
+          <button type="button" class="tab-btn py-2 rounded-lg text-center transition text-white bg-blue-600 shadow-sm" data-tab="tab-profile">Profile</button>
+          <button type="button" class="tab-btn py-2 rounded-lg text-center transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200" data-tab="tab-photo">Photo</button>
+          <button type="button" class="tab-btn py-2 rounded-lg text-center transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200" data-tab="tab-company">Company</button>
+          <button type="button" class="tab-btn py-2 rounded-lg text-center transition text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200" data-tab="tab-theme">Theme</button>
+        </div>
+      </div>
+
+      <!-- Tab Content Panels -->
+      <div class="p-5 overflow-y-auto max-h-[calc(100vh-280px)] space-y-5 text-sm flex-1">
+
+        <!-- TAB 1: Profile Details -->
+        <div id="tab-profile" class="tab-content space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Full Name</label>
+            <input type="text" id="inName" value="JAY SINGH" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 dark:focus:border-cyan-500 focus:ring-1 focus:ring-blue-500 transition">
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Professional Designation / Title</label>
+            <input type="text" id="inTitle" value="DIRECTOR" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 dark:focus:border-cyan-500 focus:ring-1 focus:ring-blue-500 transition">
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Bio / Summary Description</label>
+            <textarea id="inBio" rows="3" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white text-xs leading-relaxed focus:outline-none focus:border-blue-500 dark:focus:border-cyan-500 focus:ring-1 focus:ring-blue-500 transition resize-none">Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.</textarea>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 pt-1">
+            <div>
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Phone Contact</label>
+              <input type="text" id="inPhone" value="+91 95 8795 0077" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-blue-500 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">LinkedIn URL</label>
+              <input type="text" id="inLinkedin" value="www.linkedin.com/in/jaysingh9518/" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-blue-500 transition">
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: Photo Customizer -->
+        <div id="tab-photo" class="tab-content hidden space-y-4">
+          <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Upload Profile Picture</label>
+            <div class="flex items-center gap-3">
+              <label class="cursor-pointer flex-1 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-center py-2.5 px-4 rounded-lg font-medium text-xs border border-slate-300 dark:border-slate-700 transition flex items-center justify-center gap-2 shadow-sm">
+                <svg class="w-4 h-4 text-blue-600 dark:text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"/><line x1="16" y1="5" x2="22" y2="5"/><line x1="19" y1="2" x2="19" y2="8"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                Choose Photo
+                <input type="file" id="uploadAvatar" accept="image/*" class="hidden">
+              </label>
+              <button id="btnPresetAvatar" type="button" class="px-3 py-2.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg border border-slate-300 dark:border-slate-700 shadow-sm">Preset</button>
+            </div>
+            <p class="text-[11px] text-slate-500">Supports JPG, PNG, WEBP. Processes locally on your device.</p>
+          </div>
+
+          <!-- Position & Scale Sliders -->
+          <div class="space-y-4 pt-2">
+            <div>
+              <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 mb-1">
+                <span>Scale / Zoom</span>
+                <span id="lblScale" class="font-mono text-blue-600 dark:text-cyan-400 font-semibold">1.0x</span>
+              </div>
+              <input type="range" id="rngScale" min="0.5" max="2.5" step="0.05" value="1" class="w-full cursor-pointer">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 mb-1">
+                <span>Horizontal Offset (X)</span>
+                <span id="lblPosX" class="font-mono text-blue-600 dark:text-cyan-400 font-semibold">0 px</span>
+              </div>
+              <input type="range" id="rngPosX" min="-120" max="120" step="1" value="0" class="w-full cursor-pointer">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 mb-1">
+                <span>Vertical Offset (Y)</span>
+                <span id="lblPosY" class="font-mono text-blue-600 dark:text-cyan-400 font-semibold">0 px</span>
+              </div>
+              <input type="range" id="rngPosY" min="-120" max="120" step="1" value="0" class="w-full cursor-pointer">
+            </div>
+
+            <button type="button" id="btnResetPhotoTransform" class="w-full py-2 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-xs rounded-lg transition border border-slate-200 dark:border-slate-800">
+              Center Photo
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 3: Company & Branding -->
+        <div id="tab-company" class="tab-content hidden space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Company / Entity Name</label>
+            <input type="text" id="inCompany" value="Visual Synergy Pvt. Ltd" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 transition">
+          </div>
+
+          <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Corporate Brand Logo</label>
+            <div class="grid grid-cols-2 gap-2 mb-2">
+              <button type="button" id="btnUseVisualSynergyLogo" class="py-2 px-3 text-xs font-medium rounded-lg bg-blue-50 dark:bg-blue-600/30 text-blue-700 dark:text-cyan-300 border border-blue-200 dark:border-cyan-500/40">Visual Synergy</button>
+              <label class="cursor-pointer py-2 px-3 text-xs font-medium rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-center border border-slate-300 dark:border-slate-700 flex items-center justify-center shadow-sm">
+                Custom File
+                <input type="file" id="uploadLogo" accept="image/*" class="hidden">
+              </label>
+            </div>
+            <p class="text-[11px] text-slate-500">Visual Synergy vector logo is active by default.</p>
+          </div>
+        </div>
+
+        <!-- TAB 4: Theme Palette -->
+        <div id="tab-theme" class="tab-content hidden space-y-4">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Customize the vector accent colors inside the banner graphic:</p>
+          
+          <div class="grid grid-cols-1 gap-3">
+            <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
+              <div>
+                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Primary Navy Color</span>
+                <span class="text-[11px] text-slate-500">Right panel & name text</span>
+              </div>
+              <input type="color" id="colNavy" value="#0b4084" class="w-9 h-9 rounded-lg border-0 bg-transparent cursor-pointer">
+            </div>
+
+            <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
+              <div>
+                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Accent Blue</span>
+                <span class="text-[11px] text-slate-500">Secondary waves & logo</span>
+              </div>
+              <input type="color" id="colBlue" value="#0059b3" class="w-9 h-9 rounded-lg border-0 bg-transparent cursor-pointer">
+            </div>
+
+            <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
+              <div>
+                <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">Cyan Highlight</span>
+                <span class="text-[11px] text-slate-500">Ribbons & arrows</span>
+              </div>
+              <input type="color" id="colCyan" value="#0298db" class="w-9 h-9 rounded-lg border-0 bg-transparent cursor-pointer">
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button type="button" id="btnResetColors" class="w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition border border-slate-200 dark:border-slate-700">
+              Restore Visual Synergy Blues
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Studio Footer -->
+      <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/60 text-[11px] text-slate-500 flex items-center justify-between">
+        <span>Jay Singh LinkedIn Banner</span>
+        <span>Resolution: 1584 &times; 396 px</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Notification Toast Modal -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 ease-out bg-white dark:bg-slate-900 text-slate-800 dark:text-white px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl flex items-center gap-3">
+    <div class="w-6 h-6 rounded-full bg-blue-50 dark:bg-cyan-500/20 text-blue-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div>
+      <h4 id="toastTitle" class="text-xs font-bold text-slate-900 dark:text-white">Notification</h4>
+      <p id="toastMsg" class="text-[11px] text-slate-500 dark:text-slate-300">Message details</p>
+    </div>
+  </div>
+
+  <script>
+    // State representation
+    const defaultState = {
+      name: "JAY SINGH",
+      title: "DIRECTOR",
+      company: "Visual Synergy Pvt. Ltd",
+      bio: "Audio-Visual Engineering & Systems Specialist. Delivering cutting-edge smart boardroom automation, digital signage, unified communications, and integrated multimedia infrastructure.",
+      phone: "+91 95 8795 0077",
+      linkedin: "www.linkedin.com/in/jaysingh9518/",
+      avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+      avatarScale: 1.0,
+      avatarX: 0,
+      avatarY: 0,
+      navyColor: "#0b4084",
+      blueColor: "#0059b3",
+      cyanColor: "#0298db",
+      customLogoUrl: null
+    };
+
+    let state = { ...defaultState };
+
+    // DOM References
+    const htmlElement = document.documentElement;
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const sunIcon = document.getElementById("sunIcon");
+    const moonIcon = document.getElementById("moonIcon");
+    const themeLabel = document.getElementById("themeLabel");
+
+    const bannerCanvas = document.getElementById("bannerCanvas");
+    const wrapper = document.querySelector(".banner-ratio-wrapper");
+
+    // Live display elements
+    const txtName = document.getElementById("txtName");
+    const txtTitle = document.getElementById("txtTitle");
+    const txtCompany = document.getElementById("txtCompanyName");
+    const txtBio = document.getElementById("txtBio");
+    const txtPhone = document.getElementById("txtPhone");
+    const txtLinkedin = document.getElementById("txtLinkedin");
+    const avatarImg = document.getElementById("avatarImg");
+    const defaultLogoSvg = document.getElementById("defaultLogoSvg");
+    const customLogoImg = document.getElementById("customLogoImg");
+
+    // Form inputs
+    const inName = document.getElementById("inName");
+    const inTitle = document.getElementById("inTitle");
+    const inCompany = document.getElementById("inCompany");
+    const inBio = document.getElementById("inBio");
+    const inPhone = document.getElementById("inPhone");
+    const inLinkedin = document.getElementById("inLinkedin");
+
+    // Sliders
+    const rngScale = document.getElementById("rngScale");
+    const rngPosX = document.getElementById("rngPosX");
+    const rngPosY = document.getElementById("rngPosY");
+    const lblScale = document.getElementById("lblScale");
+    const lblPosX = document.getElementById("lblPosX");
+    const lblPosY = document.getElementById("lblPosY");
+
+    // Colors
+    const colNavy = document.getElementById("colNavy");
+    const colBlue = document.getElementById("colBlue");
+    const colCyan = document.getElementById("colCyan");
+
+    // Buttons
+    const btnExport = document.getElementById("btnExport");
+    const btnReset = document.getElementById("btnReset");
+    const uploadAvatar = document.getElementById("uploadAvatar");
+    const btnPresetAvatar = document.getElementById("btnPresetAvatar");
+    const btnResetPhotoTransform = document.getElementById("btnResetPhotoTransform");
+    const uploadLogo = document.getElementById("uploadLogo");
+    const btnUseVisualSynergyLogo = document.getElementById("btnUseVisualSynergyLogo");
+    const btnResetColors = document.getElementById("btnResetColors");
+
+    // ==========================================
+    // LIGHT / DARK MODE CONTROLLER (LIGHT DEFAULT)
+    // ==========================================
+    function initTheme() {
+      // Default strictly to 'light' unless user previously chose 'dark'
+      const savedTheme = localStorage.getItem("theme") || "light";
+      applyTheme(savedTheme);
+    }
+
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        htmlElement.classList.add("dark");
+        htmlElement.classList.remove("light");
+        sunIcon.classList.add("hidden");
+        moonIcon.classList.remove("hidden");
+        themeLabel.innerText = "Dark Mode";
+      } else {
+        htmlElement.classList.add("light");
+        htmlElement.classList.remove("dark");
+        sunIcon.classList.remove("hidden");
+        moonIcon.classList.add("hidden");
+        themeLabel.innerText = "Light Mode";
+      }
+      localStorage.setItem("theme", theme);
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+      const isCurrentlyDark = htmlElement.classList.contains("dark");
+      applyTheme(isCurrentlyDark ? "light" : "dark");
+    });
+
+    // ==========================================
+    // RESPONSIVE STAGE SCALING (1584 x 396 FIT)
+    // ==========================================
+    function fitBanner() {
+      if (!wrapper || !bannerCanvas) return;
+      const containerWidth = wrapper.clientWidth;
+      const targetWidth = 1584;
+      const scaleFactor = containerWidth / targetWidth;
+      bannerCanvas.style.transform = `scale(${scaleFactor})`;
+    }
+
+    window.addEventListener("resize", fitBanner);
+
+    // Toast helper
+    function showToast(title, msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastTitle").innerText = title;
+      document.getElementById("toastMsg").innerText = msg;
+      toast.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
+      }, 3200);
+    }
+
+    // ==========================================
+    // TAB SWITCHING
+    // ==========================================
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => {
+          b.classList.remove("bg-blue-600", "text-white", "shadow-sm");
+          b.classList.add("text-slate-600", "dark:text-slate-400");
+        });
+        btn.classList.add("bg-blue-600", "text-white", "shadow-sm");
+        btn.classList.remove("text-slate-600", "dark:text-slate-400");
+
+        document.querySelectorAll(".tab-content").forEach(content => {
+          content.classList.add("hidden");
+        });
+        const target = document.getElementById(btn.dataset.tab);
+        if (target) target.classList.remove("hidden");
+      });
+    });
+
+    // ==========================================
+    // LIVE INPUT LISTENERS
+    // ==========================================
+    inName.addEventListener("input", (e) => {
+      state.name = e.target.value || "JAY SINGH";
+      txtName.innerText = state.name;
+    });
+
+    inTitle.addEventListener("input", (e) => {
+      state.title = e.target.value || "DIRECTOR";
+      txtTitle.innerText = state.title;
+    });
+
+    inCompany.addEventListener("input", (e) => {
+      state.company = e.target.value || "Visual Synergy Pvt. Ltd";
+      txtCompany.innerText = state.company;
+    });
+
+    inBio.addEventListener("input", (e) => {
+      state.bio = e.target.value;
+      txtBio.innerText = state.bio;
+    });
+
+    inPhone.addEventListener("input", (e) => {
+      state.phone = e.target.value;
+      txtPhone.innerText = state.phone;
+    });
+
+    inLinkedin.addEventListener("input", (e) => {
+      state.linkedin = e.target.value;
+      txtLinkedin.innerText = state.linkedin;
+    });
+
+    // ==========================================
+    // AVATAR CONTROLS (SCALE, PAN X/Y)
+    // ==========================================
+    function updatePhotoTransform() {
+      avatarImg.style.transform = `translate(${state.avatarX}px, ${state.avatarY}px) scale(${state.avatarScale})`;
+      lblScale.innerText = `${state.avatarScale.toFixed(2)}x`;
+      lblPosX.innerText = `${state.avatarX} px`;
+      lblPosY.innerText = `${state.avatarY} px`;
+    }
+
+    rngScale.addEventListener("input", (e) => {
+      state.avatarScale = parseFloat(e.target.value);
+      updatePhotoTransform();
+    });
+
+    rngPosX.addEventListener("input", (e) => {
+      state.avatarX = parseInt(e.target.value, 10);
+      updatePhotoTransform();
+    });
+
+    rngPosY.addEventListener("input", (e) => {
+      state.avatarY = parseInt(e.target.value, 10);
+      updatePhotoTransform();
+    });
+
+    btnResetPhotoTransform.addEventListener("click", () => {
+      state.avatarScale = 1.0;
+      state.avatarX = 0;
+      state.avatarY = 0;
+      rngScale.value = 1.0;
+      rngPosX.value = 0;
+      rngPosY.value = 0;
+      updatePhotoTransform();
+      showToast("Photo Reset", "Centered image scale and position.");
+    });
+
+    uploadAvatar.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          avatarImg.src = event.target.result;
+          state.avatarUrl = event.target.result;
+          showToast("Photo Loaded", "Your portrait is active in the banner.");
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    btnPresetAvatar.addEventListener("click", () => {
+      avatarImg.src = defaultState.avatarUrl;
+      state.avatarUrl = defaultState.avatarUrl;
+      showToast("Preset Loaded", "Restored sample profile photo.");
+    });
+
+    // ==========================================
+    // LOGO HANDLERS
+    // ==========================================
+    uploadLogo.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          customLogoImg.src = event.target.result;
+          customLogoImg.classList.remove("hidden");
+          defaultLogoSvg.classList.add("hidden");
+          state.customLogoUrl = event.target.result;
+          showToast("Logo Uploaded", "Custom brand logo applied.");
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    btnUseVisualSynergyLogo.addEventListener("click", () => {
+      customLogoImg.classList.add("hidden");
+      defaultLogoSvg.classList.remove("hidden");
+      state.customLogoUrl = null;
+      showToast("Logo Reset", "Visual Synergy corporate logo restored.");
+    });
+
+    // ==========================================
+    // THEME ACCENT COLORS
+    // ==========================================
+    function applyColors() {
+      bannerCanvas.style.setProperty("--theme-navy", state.navyColor);
+      bannerCanvas.style.setProperty("--theme-blue", state.blueColor);
+      bannerCanvas.style.setProperty("--theme-cyan", state.cyanColor);
+    }
+
+    colNavy.addEventListener("input", (e) => {
+      state.navyColor = e.target.value;
+      applyColors();
+    });
+
+    colBlue.addEventListener("input", (e) => {
+      state.blueColor = e.target.value;
+      applyColors();
+    });
+
+    colCyan.addEventListener("input", (e) => {
+      state.cyanColor = e.target.value;
+      applyColors();
+    });
+
+    btnResetColors.addEventListener("click", () => {
+      state.navyColor = defaultState.navyColor;
+      state.blueColor = defaultState.blueColor;
+      state.cyanColor = defaultState.cyanColor;
+      colNavy.value = defaultState.navyColor;
+      colBlue.value = defaultState.blueColor;
+      colCyan.value = defaultState.cyanColor;
+      applyColors();
+      showToast("Colors Restored", "Applied standard Visual Synergy blues.");
+    });
+
+    // ==========================================
+    // MASTER RESET
+    // ==========================================
+    btnReset.addEventListener("click", () => {
+      state = { ...defaultState };
+      inName.value = state.name;
+      txtName.innerText = state.name;
+      inTitle.value = state.title;
+      txtTitle.innerText = state.title;
+      inCompany.value = state.company;
+      txtCompany.innerText = state.company;
+      inBio.value = state.bio;
+      txtBio.innerText = state.bio;
+      inPhone.value = state.phone;
+      txtPhone.innerText = state.phone;
+      inLinkedin.value = state.linkedin;
+      txtLinkedin.innerText = state.linkedin;
+      avatarImg.src = state.avatarUrl;
+      customLogoImg.classList.add("hidden");
+      defaultLogoSvg.classList.remove("hidden");
+      rngScale.value = 1.0;
+      rngPosX.value = 0;
+      rngPosY.value = 0;
+      updatePhotoTransform();
+      colNavy.value = state.navyColor;
+      colBlue.value = state.blueColor;
+      colCyan.value = state.cyanColor;
+      applyColors();
+      showToast("Reset Complete", "All fields restored to defaults.");
+    });
+
+    // ==========================================
+    // HIGH-RESOLUTION 1584 x 396 PNG EXPORT
+    // ==========================================
+    btnExport.addEventListener("click", async () => {
+      const originalText = btnExport.innerHTML;
+      btnExport.disabled = true;
+      btnExport.innerHTML = `
+        <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        <span>Rendering PNG...</span>
+      `;
+
+      try {
+        // Clone canvas and place off-screen at exact native 1584x396 dimensions
+        const clone = bannerCanvas.cloneNode(true);
+        clone.style.transform = "none";
+        clone.style.position = "fixed";
+        clone.style.top = "-9999px";
+        clone.style.left = "-9999px";
+        clone.style.zIndex = "99999";
+        document.body.appendChild(clone);
+
+        const canvas = await html2canvas(clone, {
+          width: 1584,
+          height: 396,
+          scale: 1, // Exact pixel mapping
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: "#ffffff",
+          logging: false
+        });
+
+        document.body.removeChild(clone);
+
+        // Trigger direct download
+        const link = document.createElement("a");
+        const cleanName = (state.name || "linkedin-banner").toLowerCase().replace(/\s+/g, "-");
+        link.download = `${cleanName}-linkedin-banner.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+        showToast("Download Started", "1584x396 PNG has been exported successfully!");
+      } catch (err) {
+        console.error("Export error:", err);
+        showToast("Export Notice", "Failed to render banner. Please verify image permissions.");
+      } finally {
+        btnExport.disabled = false;
+        btnExport.innerHTML = originalText;
+      }
+    });
+
+    // Startup initialization
+    window.onload = () => {
+      initTheme();
+      applyColors();
+      fitBanner();
+    };
+  </script>
+</body>
+</html>
